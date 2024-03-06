@@ -15,24 +15,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var docDefinition = {
                 content: [],
+                pageMargins: [40, 20, 40, 0], // [left, top, right, bottom] em pixels
                 styles: {
                     header: {
                         fontSize: 16,
                         bold: true,
-                        margin: [0, 0, 0, 8],
+                        margin: [0, 0, 0, 4],
                         alignment: 'center'
                     },
                     subheader: {
                         fontSize: 12,
                         bold: true,
-                        margin: [0, 8, 0, 4]
+                        margin: [0, 2, 0, 2]
                     },
                     defaultStyle: {
-                        fontSize: 10,
-                        margin: [0, 0, 0, 8]
+                        fontSize: 9,
+                        margin: [0, 0, 0, 4]
                     },
                     basicStyle: {
-                        fontSize: 10,
+                        fontSize: 9,
+                        margin: [0, 0, 0, 4]
+                    },
+                    addItens: {
+                        fontSize: 7,
                         margin: [0, 0, 0, 0]
                     }
                 }
@@ -55,8 +60,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 rowData.push({ text: nomeArquivo, style: 'header' });
                 dadosPorID[id].forEach(function(row) {
                     for (var key in row) {
-                        if (row.hasOwnProperty(key) && (key === 'Placa' || key === 'Data' || key === 'Quilometragem' || key === 'Preventiva ou Corretiva')) {
-                            rowData.push({ text: `${key}: ${row[key]}`, style: 'subheader', margin: [0, 0, 0, 0] });
+                        if (row.hasOwnProperty(key) && (key === 'Placa' || key === 'Data' || key === 'Quilometragem' || key === 'Preventiva ou Corretiva' || key === 'Placa Cavalo' || key === 'Placa Carreta' || key === 'Nome2')) {
+                        // Renomeia "Nome2" para "Nome"
+                        var headerText = key === 'Nome2' ? 'Nome' : key;
+                        rowData.push({ text: `${headerText}: ${row[key]}`, style: 'subheader', margin: [0, 0, 0, 0] });
                         }
                     }
                 });
@@ -70,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 tableBody.push([{ text: 'Item de Revisão', style: 'subheader' }, { text: 'Status', style: 'subheader' }]);
                 dadosPorID[id].forEach(function(row) {
                     for (var key in row) {
-                        if (row.hasOwnProperty(key) && key !== 'ID' && key !== 'Hora de início' && key !== 'Hora de conclusão' && key !== 'E-mail' && key !== 'Nome' && key !== 'Placa' && key !== 'Data' && key !== 'Quilometragem' && key !== 'Preventiva ou Corretiva') {
+                        if (row.hasOwnProperty(key) && key !== 'ID' && key !== 'Hora de início' && key !== 'Hora de conclusão' && key !== 'E-mail' && key !== 'Nome' && key !== 'Placa' && key !== 'Data' && key !== 'Quilometragem' && key !== 'Preventiva ou Corretiva' && key !== 'Placa Cavalo' && key !== 'Placa Carreta'  && key !== 'Nome2') {
                             tableBody.push([key, row[key]]);
                         }
                     }
@@ -81,11 +88,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Adiciona os itens adicionais abaixo da tabela
                 var finalData = [];
-                finalData.push({ text: `ID: ${id}`, style: 'basicStyle' });
+                finalData.push({ text: `ID: ${id}`, style: 'addItens' });
                 dadosPorID[id].forEach(function(row) {
                         for (var key in row) {
                             if (row.hasOwnProperty(key) && (key === 'Hora de início' || key === 'Hora de conclusão')) {
-                                finalData.push({ text: `${key}: ${row[key]}`, style: 'basicStyle' });
+                                finalData.push({ text: `${key}: ${row[key]}`, style: 'addItens' });
                             }
                         }
                     });
